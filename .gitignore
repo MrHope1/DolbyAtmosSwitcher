@@ -1,0 +1,13 @@
+# Build outputs
+DolbyAtmosSwitcher.exe
+*.pdb
+bin/
+obj/
+
+# Runtime data
+debug_log.txt
+
+# Local IDE and test output
+.vs/
+TestResults/
+*.user
