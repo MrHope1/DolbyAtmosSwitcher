@@ -1,59 +1,65 @@
 # Dolby Atmos Profile Switcher for Windows
 
-**Dolby Atmos Switcher** is a small, unofficial **Dolby Access profile switcher for Windows 10 and Windows 11**. It lets you switch between the **Game**, **Movie**, **Music**, and **Voice** profiles in the Dolby Access app from a Windows system tray menu or from the command line.
+![Windows 10/11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows)
+![C%23](https://img.shields.io/badge/C%23-.NET%20Framework-512BD4?logo=dotnet)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![GitHub stars](https://img.shields.io/github/stars/MrHope1/DolbyAtmosSwitcher?style=flat)
 
-If you are looking for a lightweight way to change Dolby Atmos / Dolby Access sound profiles without repeatedly navigating the Dolby Access interface, this utility provides a local Windows UI Automation-based workflow. It does not include networking, analytics, or telemetry.
+**Dolby Atmos Switcher** is a lightweight, unofficial **Dolby Access / Dolby Atmos profile switcher for Windows 10 and Windows 11**. Switch between **Game, Movie, Music, and Voice** from the Windows system tray or command line without repeatedly navigating the Dolby Access app.
+
+The utility works locally through Windows UI Automation. It does not include networking, analytics, or telemetry.
 
 > This project is not affiliated with or endorsed by Dolby Laboratories.
+
+## Why use it?
+
+Dolby Access makes you open the app and navigate its interface whenever you want to change profiles. Dolby Atmos Switcher exposes those profile changes through a small tray utility and CLI instead.
+
+Useful for people who regularly switch between gaming, movies, music, and voice-focused audio setups on Windows.
 
 ## Features
 
 - Switch Dolby Access profiles from the **Windows system tray**
-- Switch profiles with a **command-line interface (CLI)**
-- Supports the Dolby Access **Game**, **Movie**, **Music**, and **Voice** profiles
+- Switch profiles from the **command line (CLI)**
+- Supports **Game**, **Movie**, **Music**, and **Voice**
 - Optional **Run at Startup** toggle for the current Windows user
-- Uses local **Windows UI Automation** to control Dolby Access
+- Uses local **Windows UI Automation**
 - No network requests, analytics, or telemetry
-- Works on **Windows 10 and Windows 11**
+- Supports **Windows 10 and Windows 11**
 
-## Supported Dolby Access profiles
+## Quick start
 
-Dolby Atmos Switcher currently targets these English-language Dolby Access profile names:
-
-- Game
-- Movie
-- Music
-- Voice
-
-## Requirements
+### Requirements
 
 - Windows 10 or Windows 11
 - Dolby Access installed from the Microsoft Store
-- The classic .NET Framework 4.x C# compiler included with Windows
+- A .NET Framework 4.x C# compiler available on the system
 
-## Build
+### Build from source
 
-Open PowerShell in the repository directory and run:
+Clone the repository and run the build script in PowerShell:
 
 ```powershell
+git clone https://github.com/MrHope1/DolbyAtmosSwitcher.git
+cd DolbyAtmosSwitcher
 .\build.ps1
 ```
 
-The script compiles `Program.cs` and creates `DolbyAtmosSwitcher.exe` beside the build script.
+The build creates `DolbyAtmosSwitcher.exe` in the repository directory.
 
-## Run the tray app
-
-Start Dolby Atmos Switcher normally:
+Start the tray app:
 
 ```powershell
 .\DolbyAtmosSwitcher.exe
 ```
 
-The application runs as a Windows tray utility and provides profile-switching commands from its tray menu.
+## Downloads and releases
 
-## Switch Dolby Atmos profiles from the command line
+A packaged binary release has not been published yet. For now, build the executable from source using the steps above.
 
-You can also use Dolby Atmos Switcher as a CLI profile switcher:
+Future packaged versions will appear on the [GitHub Releases page](https://github.com/MrHope1/DolbyAtmosSwitcher/releases).
+
+## Switch profiles from the command line
 
 ```powershell
 .\DolbyAtmosSwitcher.exe /change Game
@@ -62,15 +68,11 @@ You can also use Dolby Atmos Switcher as a CLI profile switcher:
 .\DolbyAtmosSwitcher.exe /change Voice
 ```
 
-CLI exit codes are:
+CLI exit codes:
 
 - `0` — profile switched successfully
 - `1` — profile switching failed
 - `2` — invalid usage
-
-## Run at Windows startup
-
-The tray menu includes an optional **Run at Startup** toggle. It writes only to the current user's Windows Run key.
 
 ## Install
 
@@ -82,12 +84,20 @@ Build the executable first, then open an Administrator PowerShell window in the 
 
 The installer copies only the locally built executable to `C:\Program Files\DolbySwicher`. Source files and runtime logs are not copied.
 
+## Run at Windows startup
+
+The tray menu includes an optional **Run at Startup** toggle. It writes only to the current user's Windows Run key.
+
+## How it works
+
+Dolby Atmos Switcher controls the English-language Dolby Access interface with Windows UI Automation. It does not replace Dolby Access, modify Dolby's audio drivers, or use a remote service.
+
+Because the project depends on the Dolby Access user interface, future UI changes may require selector updates.
+
 ## Privacy and security
 
-Dolby Atmos Switcher is designed to operate locally on Windows:
-
 - No network requests, telemetry, or analytics
-- No credentials, account data, or personal information stored in the repository
+- No credentials, account data, or personal information stored by the project
 - Runtime diagnostics are stored locally under `%LOCALAPPDATA%\DolbyAtmosSwitcher`
 - Runtime logs and compiled binaries are excluded from Git
 - Build and install scripts resolve inputs relative to their own package directory
@@ -100,11 +110,53 @@ Run the complete local test suite:
 .\tests\Run-Tests.ps1
 ```
 
-The suite verifies profile validation, Windows system executable resolution, per-user log placement, and build/install path isolation.
+The suite covers profile validation, Windows system executable resolution, per-user log placement, CLI exit codes, and build/install path isolation.
 
-## Compatibility notes
+## Compatibility
 
-The utility drives the **English-language Dolby Access interface** and expects the current profile names used by that app. UI changes in future Dolby Access versions may require selector updates.
+Dolby Atmos Switcher currently targets the English-language Dolby Access interface and these profile names:
+
+- Game
+- Movie
+- Music
+- Voice
+
+If Dolby changes the relevant interface elements or labels, the automation may need to be updated.
+
+## Troubleshooting
+
+### The profile does not switch
+
+Make sure Dolby Access is installed, starts correctly, and uses the English profile names listed above. If Dolby Access has changed its interface, please open a bug report with your Windows version and Dolby Access version.
+
+### Where are the logs?
+
+Runtime diagnostics are stored under:
+
+```text
+%LOCALAPPDATA%\DolbyAtmosSwitcher
+```
+
+### Can I use it without building from source?
+
+Not yet. There is currently no packaged GitHub Release. A future release can provide a prebuilt executable so normal users do not need the compiler toolchain.
+
+## Contributing
+
+Bug reports, compatibility reports, and focused pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a change.
+
+Good contributions include:
+
+- Fixes for Dolby Access UI changes
+- Better compatibility across Windows versions
+- More resilient UI Automation selectors
+- Documentation and troubleshooting improvements
+
+## Support the project
+
+If Dolby Atmos Switcher saves you time, the easiest ways to support it today are to **star the repository**, share it with other Dolby Access users, report compatibility issues, and contribute fixes.
+
+The repository also includes GitHub funding configuration so a Sponsor button can be enabled as soon as a funding account is connected.
 
 ## FAQ
 
@@ -112,22 +164,26 @@ The utility drives the **English-language Dolby Access interface** and expects t
 
 Yes. Windows 11 is supported, provided Dolby Access is installed and its interface matches the profile names expected by the utility.
 
-### Can I switch Dolby Access profiles without opening the app manually each time?
+### Can I switch Dolby Access profiles without opening the app manually every time?
 
-The utility automates the Dolby Access interface and exposes profile switching through its tray menu and CLI, so you do not need to navigate through the app manually for each switch.
+Yes. The utility automates the Dolby Access interface and exposes profile switching through its tray menu and CLI.
 
 ### Which Dolby Atmos profiles can it switch between?
 
-The current supported profile names are **Game**, **Movie**, **Music**, and **Voice**.
+The currently supported profile names are **Game**, **Movie**, **Music**, and **Voice**.
 
 ### Does Dolby Atmos Switcher send telemetry or make network requests?
 
-No. The utility performs local Windows UI Automation and does not include networking, analytics, or telemetry.
+No. Profile switching and diagnostics are local to the Windows machine.
 
-## Disclaimer
+### Is this an official Dolby application?
 
-This project is not affiliated with or endorsed by Dolby Laboratories. Dolby and Dolby Atmos are trademarks of Dolby Laboratories.
+No. This is an independent, unofficial open-source utility and is not affiliated with or endorsed by Dolby Laboratories.
 
 ## License
 
-No license has been granted yet. All rights are reserved unless a license is added later.
+Released under the [MIT License](LICENSE).
+
+## Disclaimer
+
+Dolby and Dolby Atmos are trademarks of Dolby Laboratories. This project is not affiliated with or endorsed by Dolby Laboratories.
